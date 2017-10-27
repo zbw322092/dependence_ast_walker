@@ -1,0 +1,9 @@
+{
+  "name": "dependence_ast_walker",
+  "version": "1.0.0",
+  "description": "AST nodes walker",
+  "main": "index.js",
+  "repository": "https://github.com/zbw322092/dependence_ast_walker.git",
+  "author": "Bowen Zhong <bz4e14@soton.ac.uk>",
+  "license": "MIT"
+}
