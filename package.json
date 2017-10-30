@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/zbw322092/dependence_ast_walker.git",
   "author": "Bowen Zhong <bz4e14@soton.ac.uk>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "esprima": "^4.0.0"
+  }
 }
