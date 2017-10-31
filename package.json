@@ -7,6 +7,7 @@
   "author": "Bowen Zhong <bz4e14@soton.ac.uk>",
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^8.0.47",
     "esprima": "^4.0.0"
   }
 }
