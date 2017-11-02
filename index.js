@@ -18,6 +18,15 @@ var Walker = /** @class */ (function () {
             }
             return parseResult;
         };
+        this.traverse = function (node, cb) {
+            if (Object.prototype.toString.call(node) === "[object Object]") {
+                cb(node);
+                for (var key in node) {
+                    node[key].parent = node;
+                    _this.traverse(node[key], cb);
+                }
+            }
+        };
         if (typeof src !== "string") {
             throw new Error('src should be a string');
         }

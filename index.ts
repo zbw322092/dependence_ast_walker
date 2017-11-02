@@ -33,6 +33,16 @@ class Walker {
     return parseResult;
   }
 
+  traverse = (node: object, cb: (node: object) => void) => {
+    if (Object.prototype.toString.call(node) === "[object Object]") {
+      cb(node);
+      for (let key in node) {
+        node[key].parent = node;
+        this.traverse(node[key], cb);
+      }
+    }
+  }
+
 }
 
 module.exports = Walker;
