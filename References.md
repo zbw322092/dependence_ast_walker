@@ -12,3 +12,7 @@ https://stackoverflow.com/questions/31173738/typescript-getting-error-ts2304-can
 [3] mariusschulz.com
 https://blog.mariusschulz.com/
 <br>
+
+## Errors
+[1] strict mode
+https://stackoverflow.com/a/37393707

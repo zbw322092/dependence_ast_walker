@@ -8,6 +8,7 @@ class Walker {
   
   src: string;
   options: parseOptions;
+  private shouldStop: boolean;
 
   constructor (src: string, options: parseOptions) {
 
@@ -16,9 +17,13 @@ class Walker {
     }
     this.src = src;
     this.options = options || {};
+    this.shouldStop = false;
   }
 
-  parse = (): object =>  {
+  /**
+   * parse javascript source code using Esprima.
+   */
+  public parse = (): object =>  {
     let sourceType = this.options.sourceType || 'script';
     delete this.options.sourceType;
     let parseResult;
@@ -33,11 +38,16 @@ class Walker {
     return parseResult;
   }
 
-  traverse = (node: any, cb: (node: object) => any): void => {
+  /**
+   * travser nodes of ast. You can stop traverse by call method `stopWalking`
+   */
+  public traverse = (node: any, cb: (node: object) => any): void => {
+    if (this.shouldStop) { return; }
+
     if (Object.prototype.toString.call(node) === "[object Object]") {
       cb(node);
       for (let key in node) {
-        if (key === 'parent' || !node[key]) continue;
+        if (key === 'parent' || !node[key]) { continue; }
 
         node[key].parent = node;
         this.traverse(node[key], cb);
@@ -51,6 +61,31 @@ class Walker {
         }
       }
     }
+  }
+
+  /**
+   * calling this method to stop ast traverse
+   */
+  public stopWalking = ():void => {
+    this.shouldStop = true;
+  }
+
+  public startWalking = ():void => {
+    this.shouldStop = false;
+  }
+
+  private reverseTraverse = (node: any, cb: (node: object) => any):void => {
+    if (this.shouldStop || !node.parent) { return; }
+    
+    if (Array.isArray(node.parent)) {
+      for (let i = 0, l = node.parent.length; i < l; i++) {
+        cb(node.parent[i]);
+      }
+    } else {
+      cb(node.parent);
+    }
+
+    this.reverseTraverse(node.parent, cb);
   }
 
 }
