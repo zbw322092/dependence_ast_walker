@@ -1,4 +1,3 @@
-"use strict";
 var esprima = require('esprima');
 var Walker = /** @class */ (function () {
     function Walker(src, options) {
@@ -22,8 +21,19 @@ var Walker = /** @class */ (function () {
             if (Object.prototype.toString.call(node) === "[object Object]") {
                 cb(node);
                 for (var key in node) {
+                    if (key === 'parent' || !node[key])
+                        continue;
                     node[key].parent = node;
                     _this.traverse(node[key], cb);
+                }
+            }
+            else if (Array.isArray(node)) {
+                for (var i = 0; i < node.length; i++) {
+                    var value = node[i];
+                    if (value !== null) {
+                        value.parent = node;
+                        _this.traverse(value, cb);
+                    }
                 }
             }
         };

@@ -4,7 +4,7 @@
     "noImplicitAny": true,
     "module": "CommonJS",
     "target": "es5",
-    "strict": true,
+    "strict": false,
     "watch": true
   },
   "files": [

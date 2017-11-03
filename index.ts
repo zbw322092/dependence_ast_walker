@@ -1,7 +1,7 @@
 const esprima = require('esprima');
 
 interface parseOptions {
-  sourceType: string
+  sourceType?: string
 }
 
 class Walker {
@@ -33,12 +33,22 @@ class Walker {
     return parseResult;
   }
 
-  traverse = (node: object, cb: (node: object) => void) => {
+  traverse = (node: any, cb: (node: object) => any): void => {
     if (Object.prototype.toString.call(node) === "[object Object]") {
       cb(node);
       for (let key in node) {
+        if (key === 'parent' || !node[key]) continue;
+
         node[key].parent = node;
         this.traverse(node[key], cb);
+      }
+    } else if (Array.isArray(node)) {
+      for (let i = 0; i < node.length; i++) {
+        let value = node[i];
+        if (value !== null) {
+          value.parent = node;
+          this.traverse(value, cb);
+        }
       }
     }
   }
